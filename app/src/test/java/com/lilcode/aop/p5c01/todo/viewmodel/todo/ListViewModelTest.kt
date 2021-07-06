@@ -5,6 +5,7 @@ import com.lilcode.aop.p5c01.todo.data.entity.ToDoEntity
 import com.lilcode.aop.p5c01.todo.domain.todo.GetToDoItemUseCase
 import com.lilcode.aop.p5c01.todo.domain.todo.InsertToDoListUseCase
 import com.lilcode.aop.p5c01.todo.presentation.list.ListViewModel
+import com.lilcode.aop.p5c01.todo.presentation.list.ToDoListState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
@@ -59,7 +60,9 @@ internal class ListViewModelTest: ViewModelTest() {
         viewModel.fetchData()
         testObservable.assertValueSequence(
             listOf(
-                mockList
+                ToDoListState.UnInitialized,
+                ToDoListState.Loading,
+                ToDoListState.Suceess(mockList)
             )
         )
     }
@@ -82,14 +85,13 @@ internal class ListViewModelTest: ViewModelTest() {
     fun `test Item Delete All`():Unit = runBlockingTest {
         val testObservable = viewModel.todoListLiveData.test()
 
-        viewModel.fetchData()
-
         viewModel.deleteAll()
 
         testObservable.assertValueSequence(
             listOf(
-                mockList,
-                listOf()
+                ToDoListState.UnInitialized,
+                ToDoListState.Loading,
+                ToDoListState.Suceess(listOf())
             )
         )
     }
