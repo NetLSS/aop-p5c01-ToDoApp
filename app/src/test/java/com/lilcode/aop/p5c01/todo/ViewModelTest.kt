@@ -27,6 +27,10 @@ internal abstract class ViewModelTest: KoinTest {
     @get:Rule
     val mockitoRule: MockitoRule = MockitoJUnit.rule()// 유닛 테스트를 위한 목킹 라이브러리
 
+    @JvmField
+    @Rule
+    var rule = InstantTaskExecutorRule()
+
     @Mock
     private lateinit var context: Application
 
