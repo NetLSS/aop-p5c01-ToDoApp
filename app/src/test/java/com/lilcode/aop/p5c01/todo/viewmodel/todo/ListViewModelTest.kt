@@ -76,4 +76,22 @@ internal class ListViewModelTest: ViewModelTest() {
         viewModel.updateEntity(todo)
         assert(getToDoItemUseCase(todo.id)?.hasCompleted?:false == todo.hasCompleted)
     }
+
+    // Test: 데이터 전체 삭제 시 빈 상태로 보여지는가
+    @Test
+    fun `test Item Delete All`():Unit = runBlockingTest {
+        val testObservable = viewModel.todoListLiveData.test()
+
+        viewModel.fetchData()
+
+        viewModel.deleteAll()
+
+        testObservable.assertValueSequence(
+            listOf(
+                mockList,
+                listOf()
+            )
+        )
+    }
+
 }

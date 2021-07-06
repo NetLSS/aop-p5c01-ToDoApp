@@ -1,6 +1,7 @@
 package com.lilcode.aop.p5c01.todo
 
 import android.app.Application
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import com.lilcode.aop.p5c01.todo.di.appTestModule
 import com.lilcode.aop.p5c01.todo.liveData.LiveDataTestObserver
