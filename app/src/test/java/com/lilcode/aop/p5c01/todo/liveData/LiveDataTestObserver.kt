@@ -1,7 +1,6 @@
 package com.lilcode.aop.p5c01.todo.liveData
 
 import androidx.lifecycle.Observer
-import java.lang.AssertionError
 
 class LiveDataTestObserver<T> : Observer<T> {
 

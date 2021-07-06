@@ -22,7 +22,7 @@ import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoRule
 
 @ExperimentalCoroutinesApi // Dispatchers 사용시 워닝 제거.
-internal class ViewModelTest: KoinTest {
+internal abstract class ViewModelTest: KoinTest {
 
     @get:Rule
     val mockitoRule: MockitoRule = MockitoJUnit.rule()// 유닛 테스트를 위한 목킹 라이브러리
