@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lilcode.aop.p5c01.todo.domain.todo.DeleteToDoItemUseCase
 import com.lilcode.aop.p5c01.todo.domain.todo.GetToDoItemUseCase
+import com.lilcode.aop.p5c01.todo.domain.todo.UpdateToDoUseCase
 import com.lilcode.aop.p5c01.todo.presentation.BaseViewModel
 import com.lilcode.aop.p5c01.todo.presentation.list.ToDoListState
 import kotlinx.coroutines.Job
@@ -16,7 +17,8 @@ internal class DetailViewModel(
     var detailMode: DetailMode,
     var id: Long = -1,
     private val getToDoItemUseCase: GetToDoItemUseCase,
-    private val deleteToDoItemUseCase: DeleteToDoItemUseCase
+    private val deleteToDoItemUseCase: DeleteToDoItemUseCase,
+    private val updateToDoUseCase: UpdateToDoUseCase
 ) : BaseViewModel() {
 
     private var _toDoDetailLiveData =
@@ -58,6 +60,35 @@ internal class DetailViewModel(
         } catch (e: Exception) {
             e.printStackTrace()
             _toDoDetailLiveData.postValue(ToDoDetailState.Error)
+        }
+    }
+
+    fun writeToDo(title: String, description: String) = viewModelScope.launch {
+        _toDoDetailLiveData.postValue(ToDoDetailState.Loading)
+        when(detailMode){
+            DetailMode.WRITE -> {
+                // TODO 나중에 작성 처리
+            }
+            DetailMode.DETAIL -> {
+                try {
+                    getToDoItemUseCase(id)?.let {
+                        val updateToDoEntity = it.copy(
+                            title=title,
+                            description = description
+                        )
+                        updateToDoUseCase(updateToDoEntity)
+                        _toDoDetailLiveData.postValue(ToDoDetailState.Success(updateToDoEntity))
+
+                    }?: kotlin.run {
+                        _toDoDetailLiveData.postValue(ToDoDetailState.Error)
+
+                    }
+                }catch (e:Exception){
+                    e.printStackTrace()
+                    _toDoDetailLiveData.postValue(ToDoDetailState.Error)
+
+                }
+            }
         }
     }
 }

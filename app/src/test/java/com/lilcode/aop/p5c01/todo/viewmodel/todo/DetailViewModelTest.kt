@@ -14,7 +14,6 @@ import org.junit.Before
 import org.junit.Test
 import org.koin.core.parameter.parametersOf
 import org.koin.test.inject
-import java.lang.Exception
 
 /**
  * [DetailViewModel]을 테스트하기 위한 Unit Test Class
@@ -83,11 +82,32 @@ internal class DetailViewModelTest: ViewModelTest() {
             listOf(
                 ToDoListState.UnInitialized,
                 ToDoListState.Loading,
-                ToDoListState.Suceess(listOf())
+                ToDoListState.Success(listOf())
             )
         )
-
-
-
     }
+
+    @Test
+    fun `test update todo`() = runBlockingTest {
+        val testObservable = detailViewModel.todoDetailLiveData.test()
+
+        val updateTitle = "title 1 update"
+        val updateDescription = "description 1 update"
+        val updateToDo = todo.copy(
+            title=updateTitle,
+            description = updateDescription
+        )
+        detailViewModel.writeToDo(
+            title=updateTitle,
+            description = updateDescription
+        )
+        testObservable.assertValueSequence(
+            listOf(
+                ToDoDetailState.UnInitialized,
+                ToDoDetailState.Loading,
+                ToDoDetailState.Success(updateToDo)
+            )
+        )
+    }
+
 }

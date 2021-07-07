@@ -62,7 +62,7 @@ internal class ListViewModelTest: ViewModelTest() {
             listOf(
                 ToDoListState.UnInitialized,
                 ToDoListState.Loading,
-                ToDoListState.Suceess(mockList)
+                ToDoListState.Success(mockList)
             )
         )
     }
@@ -91,7 +91,7 @@ internal class ListViewModelTest: ViewModelTest() {
             listOf(
                 ToDoListState.UnInitialized,
                 ToDoListState.Loading,
-                ToDoListState.Suceess(listOf())
+                ToDoListState.Success(listOf())
             )
         )
     }

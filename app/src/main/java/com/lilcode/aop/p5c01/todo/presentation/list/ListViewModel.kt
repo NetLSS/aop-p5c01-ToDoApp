@@ -2,7 +2,6 @@ package com.lilcode.aop.p5c01.todo.presentation.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lilcode.aop.p5c01.todo.data.entity.ToDoEntity
 import com.lilcode.aop.p5c01.todo.domain.todo.DeleteAllToDoItemUseCase
@@ -29,7 +28,7 @@ internal class ListViewModel(
 
     override fun fetchData(): Job = viewModelScope.launch {
         _toDoListLiveData.postValue(ToDoListState.Loading)
-        _toDoListLiveData.postValue(ToDoListState.Suceess(getToDoListUseCase()))
+        _toDoListLiveData.postValue(ToDoListState.Success(getToDoListUseCase()))
     }
 
     fun updateEntity(toDoEntity: ToDoEntity) = viewModelScope.launch{
@@ -39,7 +38,7 @@ internal class ListViewModel(
     fun deleteAll() = viewModelScope.launch{
         _toDoListLiveData.postValue(ToDoListState.Loading)
         deleteAllToDoItemUseCase()
-        _toDoListLiveData.postValue(ToDoListState.Suceess(getToDoListUseCase()))
+        _toDoListLiveData.postValue(ToDoListState.Success(getToDoListUseCase()))
     }
 
 
