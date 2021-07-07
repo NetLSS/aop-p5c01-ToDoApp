@@ -16,12 +16,16 @@ import com.lilcode.aop.p5c01.todo.domain.todo.UpdateToDoUseCase
 import com.lilcode.aop.p5c01.todo.presentation.detail.DetailMode
 import com.lilcode.aop.p5c01.todo.presentation.detail.DetailViewModel
 import com.lilcode.aop.p5c01.todo.presentation.list.ListViewModel
+import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import kotlin.math.sin
 
 internal val appModule = module {
+
+    single { Dispatchers.Main }
+    single { Dispatchers.IO }
 
     // viewModel
     viewModel { ListViewModel(get(), get(), get()) }
