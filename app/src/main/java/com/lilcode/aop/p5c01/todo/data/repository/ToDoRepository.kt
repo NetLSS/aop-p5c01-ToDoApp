@@ -20,4 +20,6 @@ interface ToDoRepository {
     suspend fun getToDoItem(itemId: Long): ToDoEntity?
 
     suspend fun deleteAll()
+
+    suspend fun deleteToDoItem(id: Long):Boolean
 }

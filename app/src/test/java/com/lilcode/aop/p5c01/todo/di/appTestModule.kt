@@ -18,6 +18,7 @@ internal val appTestModule = module {
         DetailViewModel(
             detailMode=detailMode,
             id = id,
+            get(),
             get()
         )}
 
@@ -28,6 +29,7 @@ internal val appTestModule = module {
     factory { UpdateToDoUseCase(get()) }
     factory { GetToDoItemUseCase(get()) }
     factory { DeleteAllToDoItemUseCase(get()) }
+    factory { DeleteToDoItemUseCase(get()) }
 
     // Repository
     single<ToDoRepository> { TestToDoRepository() } // ToDoRepository 를 반환
