@@ -20,11 +20,15 @@ interface ToDoDao {
     suspend fun insert(toDoEntityList: List<ToDoEntity>)
 
     @Query("DELETE FROM ToDoEntity WHERE id=:id")
-    suspend fun delete(id: Long) : Boolean
+    suspend fun delete(id: Long) : Int//the number of deleted rows
 
     @Query("DELETE FROM ToDoEntity")
     suspend fun deleteAll()
 
     @Update
-    suspend fun update(toDoEntity: ToDoEntity):Boolean
+    suspend fun update(toDoEntity: ToDoEntity):Int
 }
+
+/*
+UPDATE or DELETE queries can return void or int. If it is an int, the value is the number of rows affected by this query.
+ */
