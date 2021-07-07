@@ -84,4 +84,5 @@ dependencies {
 
     implementation("androidx.room:room-ktx:2.3.0")
 
+    kapt "org.xerial:sqlite-jdbc:3.34.0"
 }
