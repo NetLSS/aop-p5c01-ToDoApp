@@ -6,6 +6,7 @@ import com.lilcode.aop.p5c01.todo.presentation.detail.DetailMode
 import com.lilcode.aop.p5c01.todo.presentation.detail.DetailViewModel
 import com.lilcode.aop.p5c01.todo.presentation.detail.ToDoDetailState
 import com.lilcode.aop.p5c01.todo.presentation.list.ListViewModel
+import com.lilcode.aop.p5c01.todo.presentation.list.ToDoListState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
@@ -41,8 +42,41 @@ internal class DetailViewModelForWriteTest : ViewModelTest() {
         testObservable.assertValueSequence(
             listOf(
                 ToDoDetailState.UnInitialized,
-                ToDoDetailState.Loading,
                 ToDoDetailState.Write
+            )
+        )
+    }
+
+    @Test
+    fun `test insert todo`()= runBlockingTest {
+        val detailTestObservable = detailViewModel.todoDetailLiveData.test()
+        val listTestObservable = listViewModel.todoListLiveData.test()
+
+        detailViewModel.writeToDo(
+            title = todo.title,
+            description = todo.description
+        )
+
+        detailTestObservable.assertValueSequence(
+            listOf(
+                ToDoDetailState.UnInitialized,
+                ToDoDetailState.Loading,
+                ToDoDetailState.Success(todo)
+            )
+        )
+
+        assert(detailViewModel.detailMode == DetailMode.DETAIL)
+        assert(detailViewModel.id == id)
+
+        // 뒤로 나가서 리스트 보기
+        listViewModel.fetchData()
+        listTestObservable.assertValueSequence(
+            listOf(
+                ToDoListState.UnInitialized,
+                ToDoListState.Loading,
+                ToDoListState.Success(listOf(
+                    todo
+                ))
             )
         )
     }
