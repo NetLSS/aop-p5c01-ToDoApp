@@ -27,7 +27,7 @@ class LiveDataTestObserver<T> : Observer<T> {
                 break
 
             val actual: T = actualIterator.next()
-            val expected: T = actualIterator.next()
+            val expected: T = expectedIterator.next()
 
             if (actual != expected) {
                 throw AssertionError("actual: ${actual}, expected: ${expected}, index: $i")
