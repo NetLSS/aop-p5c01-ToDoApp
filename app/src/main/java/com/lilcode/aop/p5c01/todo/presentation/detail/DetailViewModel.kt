@@ -67,6 +67,10 @@ internal class DetailViewModel(
         }
     }
 
+    fun setModifyMode() = viewModelScope.launch {
+        _toDoDetailLiveData.postValue(ToDoDetailState.Modify) // 수정이 가능한 상태로
+    }
+
     fun writeToDo(title: String, description: String) = viewModelScope.launch {
         _toDoDetailLiveData.postValue(ToDoDetailState.Loading)
         when(detailMode){

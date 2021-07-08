@@ -1,5 +1,7 @@
 package com.lilcode.aop.p5c01.todo.presentation.list
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -9,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lilcode.aop.p5c01.todo.R
 import com.lilcode.aop.p5c01.todo.databinding.ActivityListBinding
 import com.lilcode.aop.p5c01.todo.presentation.BaseActivity
+import com.lilcode.aop.p5c01.todo.presentation.detail.DetailActivity
+import com.lilcode.aop.p5c01.todo.presentation.detail.DetailMode
 import com.lilcode.aop.p5c01.todo.presentation.view.ToDoAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -42,12 +46,12 @@ internal class ListActivity : BaseActivity<ListViewModel>(), CoroutineScope {
             viewModel.fetchData()
         }
 
+        // 작성이 가능할 때
         addToDoButton.setOnClickListener {
-            // TODO: 2021/07/07 DetailActivity 구현
-//            startActivityForResult(
-//                DetailActivity.getIntent(this@ListActivity, DetailMode.WRITE),
-//                DetailActivity.FETCH_REQUEST_CODE
-//            )
+            startActivityForResult(
+                DetailActivity.getIntent(this@ListActivity, DetailMode.WRITE),
+                DetailActivity.FETCH_REQUEST_CODE
+            )
         }
     }
 
@@ -87,11 +91,10 @@ internal class ListActivity : BaseActivity<ListViewModel>(), CoroutineScope {
             adapter.setToDoList(
                 state.toDoList,
                 toDoItemClickListener = {
-                    // TODO: 2021/07/07 DetailActivity 구
-//                    startActivityForResult(
-//                        DetailActivity.getIntent(this@ListActivity, it.id, DetailMode.DETAIL),
-//                        DetailActivity.FETCH_REQUEST_CODE
-//                    )
+                    startActivityForResult( // 수정이 가능할 때
+                        DetailActivity.getIntent(this@ListActivity, it.id, DetailMode.DETAIL),
+                        DetailActivity.FETCH_REQUEST_CODE
+                    )
                 }, toDoCheckListener = {
                     viewModel.updateEntity(it)
                 }
@@ -102,6 +105,13 @@ internal class ListActivity : BaseActivity<ListViewModel>(), CoroutineScope {
     private fun handleErrorState(){
         Toast.makeText(this,"에러가 발생했습니다.",Toast.LENGTH_SHORT)
             .show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == DetailActivity.FETCH_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            viewModel.fetchData()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
