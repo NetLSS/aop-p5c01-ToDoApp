@@ -16,8 +16,8 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 internal class DetailViewModel(
-    var detailMode: DetailMode,
-    var id: Long = -1,
+    var detailMode: DetailMode, // 이후 parametersOf 로 받아옴
+    var id: Long = -1, // 이후 parametersOf 로 받아옴
     private val getToDoItemUseCase: GetToDoItemUseCase,
     private val deleteToDoItemUseCase: DeleteToDoItemUseCase,
     private val updateToDoUseCase: UpdateToDoUseCase,
